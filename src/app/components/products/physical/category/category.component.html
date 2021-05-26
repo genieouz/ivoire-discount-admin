@@ -1,0 +1,63 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Liste des catégories</h5>
+                </div>
+                <div class="card-body">
+                    <div class="btn-popup pull-right">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-original-title="test"
+                            data-target="#exampleModal" (click)="open(content)">Ajouter une Catégorie</button>
+                        <ng-template #content let-modal>
+                            <div class="modal-header">
+                                <h5 class="modal-title f-w-600" id="exampleModalLabel">Ajouter une Catégorie</h5>
+                                <button type="button" class="close" aria-label="Close"
+                                    (click)="modal.dismiss('Cross click')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="needs-validation">
+                                    <div class="form">
+                                        <div class="form-group">
+                                            <label for="validationCustom01" class="mb-1">Nom Catégorie :</label>
+                                            <input class="form-control" name="name" [(ngModel)]="newCategory.name" id="validationCustom01" type="text">
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label for="validationCustom02" class="mb-1">Catégorie mère :</label>
+                                            <select class="form-control digits"
+                                            id="exampleFormControlSelect1" name="parent" [(ngModel)]="newCategory.parent">
+                                              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label for="validationCustomStatus" class="mb-1">Statut :</label>
+                                            <select class="form-control digits"
+                                            id="exampleFormControlSelectStatus" name="status" [(ngModel)]="newCategory.status">
+                                            <option value="ENABLED">Activé</option>
+                                              <option value="DISABLED">Désactivé</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" (click)="addCategory(); modal.dismiss('Cross click')">Enregistrer</button>
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                                    (click)="modal.dismiss('Cross click')">Fermer</button>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div id="batchDelete" class="category-table custom-datatable">
+                        <div class="table-responsive">
+                            <ng2-smart-table [settings]="settings" [source]="categories"></ng2-smart-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->

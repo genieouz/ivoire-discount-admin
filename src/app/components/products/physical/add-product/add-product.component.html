@@ -1,0 +1,111 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Ajouter un Produit</h5>
+                </div>
+                <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+                <div *ngIf="success" class="alert alert-success">{{success}}</div>
+                <div class="card-body">
+                    <div class="row product-adding">
+                        <div class="col-xl-5">
+                            <div class="add-product">
+                                <div class="row">
+                                    <div class="col-xl-9 xl-50 col-sm-6 col-9">
+                                      <ul class="file-upload-product" style="width: 100%" >
+                                      <li style="width: 100%" >
+                                        <div class="box-input-file" style="width: 100%; height: 300px" >
+                                        <input class="upload" style="width: 100%" type="file" (change)="readUrl($event,-1)">
+                                        <img [src]="productImg" style="width: 100%; height: 100%"  alt="" class="imgUpload img-fluid image_zoom_1">
+                                      </div>
+                                      </li>
+                                      </ul>
+                                    </div>
+                                    <div class="col-xl-3 xl-50 col-sm-6 col-3">
+                                        <ul class="file-upload-product">
+                                            <li *ngFor="let item of url; let i=index">
+                                                <div class="box-input-file">
+                                                    <input class="upload" type="file" (change)="readUrl($event,i)">
+                                                    <img class="imgUpload" alt="" [src]="item.img"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-7">
+                            <form class="needs-validation" [formGroup]="productForm" novalidate>
+                                <div class="add-product-form">
+                                    <div class="form-group row">
+                                        <label for="validationCustom01" class="col-xl-3 col-sm-4 mb-0">Titre
+                                            :</label>
+                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom01"
+                                            type="text" [formControl]="productForm.controls['name']" required>
+                                        <div *ngIf="productForm.controls.name.touched && productForm.controls.name.errors?.required"
+                                            class="text text-danger">
+                                            Le titre est requis
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">Prix :</label>
+                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom02"
+                                            type="number" [formControl]="productForm.controls['price']" required="">
+                                        <div *ngIf="productForm.controls.price.touched && productForm.controls.price.errors?.required"
+                                            class="text text-danger">
+                                            Le prix est requis
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="validationCustom03" class="col-xl-3 col-sm-4 mb-0">Code Promo
+                                            :</label>
+                                        <input class="form-control col-xl-8 col-sm-7" id="validationCustom03"
+                                           [formControl]="productForm.controls['code']">
+                                        <div *ngIf="productForm.controls.code.touched && productForm.controls.code.errors?.required"
+                                            class="text text-danger">
+                                            Product <Code></Code> is required.
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="exampleFormControlSelect1" class="col-xl-3 col-sm-4 mb-0">
+                                            Catégorie
+                                            :</label>
+                                        <select class="form-control digits col-xl-8 col-sm-7"
+                                            id="exampleFormControlSelect1" [formControl]="productForm.controls['category']" >
+                                            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-sm-4 mb-0">Total Products :</label>
+                                        <div class="qty-box1">
+                                            <div class="input-group">
+                                                <i class="fa fa-minus btnGtr1" (click)=decrement()></i>
+                                                <input class="touchspin1 text-center" name="counter" [value]="counter"
+                                                    type="text">
+                                                <i class="fa fa-plus btnLess1" (click)=increment()></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-3 col-sm-4">Description :</label>
+                                        <div class="col-xl-8 col-sm-7 pl-0 description-sm">
+                                            <ck-editor id="editor1" language="en" [fullPage]="false"></ck-editor>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group row mb-0">
+                                <div class="product-buttons col-sm-8 offset-xl-3 offset-sm-4">
+                                    <button type="button" class="btn btn-primary mr-1" (click)="addProduct()">Ajouter</button>
+                                    <button type="button" class="btn btn-light">Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->

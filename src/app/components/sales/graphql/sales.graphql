@@ -1,0 +1,17 @@
+query FetchProviderBills {
+    fetchProviderBills {
+        firstname
+        lastname
+        email
+        address
+        country
+        phone
+        town
+        charge
+        cartItem {
+            name
+            quantity
+            price
+        }
+    }
+}

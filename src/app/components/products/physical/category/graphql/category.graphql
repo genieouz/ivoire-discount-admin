@@ -1,0 +1,60 @@
+query FetchMyCategories {
+    fetchMyCategories {
+        id
+        name
+        price
+        status
+        parent {
+            id
+            name
+        }
+        createdAt
+        updatedAt
+    }
+}
+
+query FetchCategory($categoryId: ID!) {
+    fetchCategory(categoryId: $categoryId) {
+        id
+        name
+        price
+        status
+        parent {
+            id
+            name
+        }
+        createdAt
+    }
+}
+
+mutation RemoveCategory($categoryId: ID!) {
+    removeCategory(categoryId: $categoryId)
+}
+
+mutation CreateCategory($categoryInput: CategoryInput!) {
+    createCategory(categoryInput: $categoryInput) {
+        id
+        name
+        price
+        status
+        parent {
+            id
+            name
+        }
+        owner
+    }
+}
+
+mutation UpdateCategory($categoryInput: UpdateCategoryInput!, $categoryId: ID!) {
+    updateCategory(categoryId: $categoryId, categoryInput: $categoryInput) {
+        id
+        name
+        price
+        status
+        parent {
+            id
+            name
+        }
+        owner
+    }
+}

@@ -1,0 +1,13 @@
+query FetchMyProducts {
+    fetchMyProducts {
+        name
+        description
+        price
+        cover {
+            id
+        }
+        gallery {
+            id
+        }
+    }
+}
