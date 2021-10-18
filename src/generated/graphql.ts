@@ -83,6 +83,21 @@ export type ClientFilterInput = {
   orderBy?: Maybe<OrderByInput>;
 };
 
+export type Comment = {
+  __typename?: 'Comment';
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  discussionId: Scalars['String'];
+  content: Scalars['String'];
+  postedBy: Scalars['String'];
+};
+
+export type CommentInput = {
+  discussionId: Scalars['String'];
+  content: Scalars['String'];
+  postedBy: Scalars['String'];
+};
+
 
 export type DiscussionMessage = {
   __typename?: 'DiscussionMessage';
@@ -100,13 +115,14 @@ export type ForumMessage = {
   id: Scalars['ID'];
   subject: Scalars['String'];
   content: Scalars['String'];
-  attachment?: Maybe<AttachmentRecord>;
-  owner: Scalars['ID'];
+  postedBy: Scalars['String'];
+  comments: Array<Comment>;
 };
 
 export type ForumMessageInput = {
   subject: Scalars['String'];
   content: Scalars['String'];
+  postedBy: Scalars['String'];
 };
 
 export type GqlTimestamp = {
@@ -153,6 +169,9 @@ export type Mutation = {
   createForumMessage: ForumMessage;
   updateForumMessage: ForumMessage;
   removeForumMessage: Scalars['Boolean'];
+  createComment: Comment;
+  updateComment: Comment;
+  removeComment: Scalars['Boolean'];
 };
 
 
@@ -277,6 +296,22 @@ export type MutationRemoveForumMessageArgs = {
   forumMessageId: Scalars['ID'];
 };
 
+
+export type MutationCreateCommentArgs = {
+  commentInput: CommentInput;
+};
+
+
+export type MutationUpdateCommentArgs = {
+  commentInput: UpdateCommentInput;
+  commentId: Scalars['ID'];
+};
+
+
+export type MutationRemoveCommentArgs = {
+  commentId: Scalars['ID'];
+};
+
 /** OrderBy direction */
 export enum OrderByDirection {
   Asc = 'Asc',
@@ -339,6 +374,8 @@ export type ProductBill = {
 
 export type ProductInput = {
   id: Scalars['String'];
+  name: Scalars['String'];
+  description: Scalars['String'];
 };
 
 export type Query = {
@@ -365,6 +402,8 @@ export type Query = {
   fetchProviderBills: Array<ProductBill>;
   fetchForumMessage: ForumMessage;
   fetchForumMessages: Array<ForumMessage>;
+  fetchComment: Comment;
+  fetchComments: Array<Comment>;
 };
 
 
@@ -453,7 +492,12 @@ export type QueryFetchForumMessageArgs = {
 };
 
 
-export type QueryFetchForumMessagesArgs = {
+export type QueryFetchCommentArgs = {
+  commentId: Scalars['ID'];
+};
+
+
+export type QueryFetchCommentsArgs = {
   clientFilter: ClientFilterInput;
 };
 
@@ -486,6 +530,10 @@ export type UpdateCategoryInput = {
 };
 
 export type UpdateChatMessageInput = {
+  id: Scalars['String'];
+};
+
+export type UpdateCommentInput = {
   id: Scalars['String'];
 };
 
@@ -542,6 +590,23 @@ export type LoginQueryVariables = Exact<{
 export type LoginQuery = (
   { __typename?: 'Query' }
   & { login: (
+    { __typename?: 'Session' }
+    & Pick<Session, 'token'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'firstName' | 'lastName' | 'email'>
+    ) }
+  ) }
+);
+
+export type RegisterMutationVariables = Exact<{
+  registerInput: RegisterInput;
+}>;
+
+
+export type RegisterMutation = (
+  { __typename?: 'Mutation' }
+  & { register: (
     { __typename?: 'Session' }
     & Pick<Session, 'token'>
     & { user: (
@@ -679,9 +744,36 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Query<LoginQuery, LoginQueryVariables> {
     document = LoginDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
+    }
+  }
+export const RegisterDocument = gql`
+    mutation Register($registerInput: RegisterInput!) {
+  register(registerInput: $registerInput) {
+    token
+    user {
+      firstName
+      lastName
+      email
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
+    document = RegisterDocument;
+
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+
+    fetch(param: { registerInput: any }) {
+
     }
   }
 export const FetchMyCategoriesDocument = gql`
@@ -706,7 +798,7 @@ export const FetchMyCategoriesDocument = gql`
   })
   export class FetchMyCategoriesGQL extends Apollo.Query<FetchMyCategoriesQuery, FetchMyCategoriesQueryVariables> {
     document = FetchMyCategoriesDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -732,7 +824,7 @@ export const FetchCategoryDocument = gql`
   })
   export class FetchCategoryGQL extends Apollo.Query<FetchCategoryQuery, FetchCategoryQueryVariables> {
     document = FetchCategoryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -748,7 +840,7 @@ export const RemoveCategoryDocument = gql`
   })
   export class RemoveCategoryGQL extends Apollo.Mutation<RemoveCategoryMutation, RemoveCategoryMutationVariables> {
     document = RemoveCategoryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -774,7 +866,7 @@ export const CreateCategoryDocument = gql`
   })
   export class CreateCategoryGQL extends Apollo.Mutation<CreateCategoryMutation, CreateCategoryMutationVariables> {
     document = CreateCategoryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -800,7 +892,7 @@ export const UpdateCategoryDocument = gql`
   })
   export class UpdateCategoryGQL extends Apollo.Mutation<UpdateCategoryMutation, UpdateCategoryMutationVariables> {
     document = UpdateCategoryDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -826,7 +918,7 @@ export const FetchMyProductsDocument = gql`
   })
   export class FetchMyProductsGQL extends Apollo.Query<FetchMyProductsQuery, FetchMyProductsQueryVariables> {
     document = FetchMyProductsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }
@@ -856,7 +948,7 @@ export const FetchProviderBillsDocument = gql`
   })
   export class FetchProviderBillsGQL extends Apollo.Query<FetchProviderBillsQuery, FetchProviderBillsQueryVariables> {
     document = FetchProviderBillsDocument;
-    
+
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
     }

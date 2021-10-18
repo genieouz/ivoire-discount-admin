@@ -11,3 +11,27 @@ query FetchMyProducts {
         }
     }
 }
+mutation CreateProduct ($productInput: ProductInput!) {
+  createProduct {
+    name
+    description
+    type
+    price
+    code
+    quota
+    category {
+      price
+      status
+      parent {
+        id
+        name
+      }
+      owner
+    }
+    cover {
+      id
+    }
+
+
+  }
+}

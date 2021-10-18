@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Image } from '@ks89/angular-modal-gallery';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
+import {any} from "codelyzer/util/function";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-detail',
@@ -9,8 +11,10 @@ import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./product-detail.component.scss'],
   providers: [NgbRatingConfig]
 })
+
 export class ProductDetailComponent implements OnInit {
-  public closeResult: string;
+  productDetail;
+   public closeResult: string;
   public counter: number = 1;
 
   public imagesRect: Image[] = [
@@ -19,7 +23,7 @@ export class ProductDetailComponent implements OnInit {
     new Image(2, { img: 'assets/images/pro3/1.jpg' }, { img: 'assets/images/pro3/1.jpg' }),
     new Image(3, { img: 'assets/images/pro3/2.jpg' }, { img: 'assets/images/pro3/2.jpg' })]
 
-  constructor(private modalService: NgbModal, config: NgbRatingConfig) {
+  constructor(private modalService: NgbModal, config: NgbRatingConfig,private route: ActivatedRoute) {
     config.max = 5;
     config.readonly = false;
   }
@@ -50,6 +54,11 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
+    this.route.queryParams.subscribe((params) => {
+      this.productDetail  = params['myproduct']
+
+       console.log("mon client detail", JSON.parse(decodeURIComponent (this.productDetail)));
+    });
+   }
 
 }

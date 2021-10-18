@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginGQL } from 'src/generated/graphql';
+import {LoginGQL, RegisterGQL} from 'src/generated/graphql';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly loginGQL: LoginGQL,
+    private readonly registerQL : RegisterGQL,
     private readonly authService: AuthService
   ) {
     this.createLoginForm();
@@ -64,9 +65,10 @@ export class LoginComponent implements OnInit {
   }
   createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      userName: [''],
-      password: [''],
-      confirmPassword: [''],
+      email: ['',Validators.required],
+      firstName: ['',Validators.required],
+      lastName: ['',Validators.required],
+      password: ['',Validators.required]
     })
   }
 
@@ -87,6 +89,7 @@ export class LoginComponent implements OnInit {
           this.errorMessage = "Email ou mot de passe incorrecte";
         } else {
           this.authService.registerToken(data.login.token);
+          this.authService.registerCurrentUser(data.login.user);
           this.router.navigate(['/dashboard']);
         }
       },
@@ -95,5 +98,26 @@ export class LoginComponent implements OnInit {
         this.errorMessage = "Email ou mot de passe incorrecte";
       }
     )
+  }
+
+  register() {
+    this.errorMessage = null;
+    console.log(this.registerForm.value)
+    this.registerQL.mutate({registerInput: this.registerForm.value }).subscribe(({
+      data,errors
+    })=>{
+      console.log({data,errors})
+      if(errors) {
+        this.errorMessage = "Email Déja utilisé";
+      } else {
+         this.router.navigate(['/auth/login']);
+      }
+
+    },
+      (error) => {
+        console.log(error)
+        this.errorMessage = "Email Déja utilisé";
+      })
+
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { productDB } from 'src/app/shared/tables/product-list';
 import { FetchMyProductsGQL } from 'src/generated/graphql';
 import { environment } from 'src/environments/environment';
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -9,11 +10,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-
+  @Input() productDetail;
   public product_list = []
 
   constructor(
-    private readonly fetchMyProductsGQL: FetchMyProductsGQL
+    private readonly fetchMyProductsGQL: FetchMyProductsGQL,private router : Router
   ) {
     this.fetchMyProductsGQL.fetch().subscribe(
       ({ data }) => {
@@ -28,4 +29,10 @@ export class ProductListComponent implements OnInit {
   generateImgUrl(imgId) {
     return `${environment.API_URI}/attachment/${imgId}`
   }
+
+  detailProduct(product: any) {
+    this.productDetail=product
+    console.log(this.productDetail)
+    this.router.navigate(['/products/physical/product-detail', {params:this.productDetail}]);
+   }
 }

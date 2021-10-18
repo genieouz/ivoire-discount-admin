@@ -27,8 +27,8 @@
                     <div class="product-detail">
                         <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                 class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
-                        <a href="javascript:void(0)">
-                            <h6>{{product.name}}</h6>
+                        <a [routerLink]="['/products/physical/product-detail']" [queryParams]="{ myproduct : product}">
+                             <h6>{{product.name}}</h6>
                         </a>
                         <h4>{{product.price}}CFA <del>{{product.price}}CFA</del></h4>
                         <ul class="color-variant">

@@ -13,6 +13,7 @@ export class digitalCategoryDB {
             price: "$472.00",
             status: "<i class='fa fa-circle font-warning f-12'></i>",
             category: "Digital",
+
         },
         {
             img: "<img src='assets/images/digital-product/lecture-video-recorder.jpg' class='imgTable'>",

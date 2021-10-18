@@ -7,13 +7,33 @@ import { userListDB } from 'src/app/shared/tables/list-users';
   styleUrls: ['./list-user.component.scss']
 })
 export class ListUserComponent implements OnInit {
-  public user_list = []
+  public user_list = [];
 
   constructor() {
     this.user_list = userListDB.list_user;
   }
 
   public settings = {
+    actions: {
+      custom: [
+        {
+          name: 'view',
+          title: 'View ',
+        },
+        {
+          name: 'edit',
+          title: 'Edit ',
+        },
+        {
+          name: 'delete',
+          title: 'Delete ',
+        },
+        {
+          name: 'duplicate',
+          title: 'Duplicate ',
+        },
+      ],
+    },
     columns: {
       avatar: {
         title: 'Avatar',
@@ -38,6 +58,10 @@ export class ListUserComponent implements OnInit {
   };
 
   ngOnInit() {
+  }
+
+  getUsers(){
+
   }
 
 }

@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-    <div class="authentication-box">
+    <div class="authentication-box" >
         <div class="container">
             <div class="row">
                 <div class="col-md-5 p-0 card-left">
@@ -186,24 +186,35 @@
                                             <form [formGroup]="registerForm"
                                                 class="form-horizontal auth-form" novalidate>
                                                 <div class="form-group">
-                                                    <input required="" name="login[username]" type="email"
+                                                    <input required="" name="email" formControlName="email" type="email"
                                                         class="form-control" placeholder="Email"
-                                                        id="exampleInputEmail12">
+                                                        id="email">
                                                 </div>
+                                              <div class="form-group">
+                                                    <input required="" name="firstName" type="text"
+                                                        class="form-control" formControlName="firstName" placeholder="Nom"
+                                                        id="example2">
+                                                </div>
+                                              <div class="form-group">
+                                                    <input required="" name="lastName" type="text"
+                                                        class="form-control" formControlName="lastName" placeholder="Prénoms"
+                                                        id="lastName">
+                                                </div>
+
                                                 <div class="form-group">
-                                                    <input required="" name="login[password]" type="password"
-                                                        class="form-control" placeholder="Mot de passe">
+                                                    <input required="" name="password" type="password"
+                                                        class="form-control" formControlName="password" placeholder="Mot de passe">
                                                 </div>
                                                 <div class="form-terms">
                                                     <div class="custom-control custom-checkbox mr-sm-2">
                                                         <input type="checkbox" class="custom-control-input"
                                                             id="customControlAutosizing1">
                                                         <label class="custom-control-label"
-                                                            for="customControlAutosizing1"><span>J'accepte les <a href="javascript:void(0)" class="pull-right"> Conditions</a></span></label>
+                                                            for="customControlAutosizing1"><span> <a href="javascript:void(0)" class="pull-right"> J'accepte les Conditions</a></span></label>
                                                     </div>
                                                 </div>
                                                 <div class="form-button">
-                                                    <button class="btn btn-primary" type="submit">Inscription</button>
+                                                    <button class="btn btn-primary" type="submit" (click)="register()">Inscription</button>
                                                 </div>
                                                 <div class="form-footer">
                                                     <span>S'inscrire avec</span>

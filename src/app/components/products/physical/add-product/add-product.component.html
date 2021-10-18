@@ -9,7 +9,8 @@
                 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
                 <div *ngIf="success" class="alert alert-success">{{success}}</div>
                 <div class="card-body">
-                    <div class="row product-adding">
+                    <div class="row product-adding" >
+                      <form class="needs-validation" [formGroup]="productForm" novalidate>
                         <div class="col-xl-5">
                             <div class="add-product">
                                 <div class="row">
@@ -17,7 +18,7 @@
                                       <ul class="file-upload-product" style="width: 100%" >
                                       <li style="width: 100%" >
                                         <div class="box-input-file" style="width: 100%; height: 300px" >
-                                        <input class="upload" style="width: 100%" type="file" (change)="readUrl($event,-1)">
+                                        <input class="upload" style="width: 100%" type="file" (change)="readUrl($event,-1)" [formControl]="productForm.controls['gallery']">
                                         <img [src]="productImg" style="width: 100%; height: 100%"  alt="" class="imgUpload img-fluid image_zoom_1">
                                       </div>
                                       </li>
@@ -36,7 +37,7 @@
                             </div>
                         </div>
                         <div class="col-xl-7">
-                            <form class="needs-validation" [formGroup]="productForm" novalidate>
+
                                 <div class="add-product-form">
                                     <div class="form-group row">
                                         <label for="validationCustom01" class="col-xl-3 col-sm-4 mb-0">Titre
@@ -94,7 +95,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+
+
                             <div class="form-group row mb-0">
                                 <div class="product-buttons col-sm-8 offset-xl-3 offset-sm-4">
                                     <button type="button" class="btn btn-primary mr-1" (click)="addProduct()">Ajouter</button>
@@ -102,10 +104,12 @@
                                 </div>
                             </div>
                         </div>
+                      </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Container-fluid Ends-->

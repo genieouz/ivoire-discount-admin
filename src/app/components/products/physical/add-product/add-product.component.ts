@@ -39,10 +39,12 @@ export class AddProductComponent implements OnInit {
     private readonly fetchMyCategories: FetchMyCategoriesGQL
   ) {
     this.productForm = this.fb.group({
+      gallery : [this.gallery],
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern('[0-9]+$')]],
       code: [''],
       category: ['', Validators.required],
+
     })
     this.fetchMyCategories.fetch().subscribe(
       ({ data }) => {

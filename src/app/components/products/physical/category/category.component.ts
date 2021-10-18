@@ -21,6 +21,7 @@ export class CategoryComponent implements OnInit {
     this.fetchMyCategoriesGQL.fetch().subscribe(
       ({ data }) => {
         this.categories = data.fetchMyCategories.map(category => { return { ...category, category: category?.parent?.name, status: status === 'ENABLED' ? enabled : disabled } })
+      console.log(this.categories)
       }
     )
 
@@ -53,16 +54,16 @@ export class CategoryComponent implements OnInit {
       name: {
         title: 'Nom'
       },
-      price: {
+    /*  price: {
         title: 'Prix'
-      },
+      },*/
       status: {
         title: 'Statut',
         type: 'html',
       },
-      category: {
+     /* category: {
         title: 'Parent',
-      }
+      }*/
     },
   };
 
