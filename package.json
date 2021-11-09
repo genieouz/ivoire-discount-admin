@@ -1,7 +1,7 @@
 {
   "name": "ivoire-discount-backend",
   "version": "0.0.0",
-  "scripts": {
+  "scripts": {git
     "ng": "ng",
     "start:dev": "run-p start:ng gql:codegen:watch",
     "start": "node index.js",
